@@ -1,0 +1,14 @@
+spring:
+  application:
+    name: event_manager_api
+  profiles:
+    active: dev
+
+open-api:
+  version: V.0.0.1
+
+springdoc:
+  swagger-ui:
+    path: /swagger-ui.html
+  api-docs:
+    path: /api-docs
