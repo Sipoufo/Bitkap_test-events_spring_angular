@@ -9,6 +9,7 @@ import com.bitkap.event_manager_api.utils.GlobalParams;
 import com.bitkap.event_manager_api.utils.dtos.ListObjectResponseDto;
 import com.bitkap.event_manager_api.utils.dtos.PageObjectResponseDto;
 import com.bitkap.event_manager_api.utils.dtos.SimpleObjectResponseDto;
+import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -37,6 +38,7 @@ public class CommentController {
     private final CommentService commentService;
 
     @GetMapping("/{id}")
+    @Operation(summary = "Find one comment.")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Comment successful returned !"),
             @ApiResponse(responseCode = "404", description = "Comment not found !")
@@ -47,6 +49,7 @@ public class CommentController {
     }
 
     @GetMapping("")
+    @Operation(summary = "Find all comments.")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Comments successful returned !"),
     })
@@ -72,6 +75,7 @@ public class CommentController {
     }
 
     @GetMapping("/event/{eventId}")
+    @Operation(summary = "Find all comments depend on event id.")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Comments successful returned !"),
     })
@@ -86,6 +90,7 @@ public class CommentController {
     }
 
     @PostMapping("")
+    @Operation(summary = "Save one comment.")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "201", description = "Comment successful saved !"),
             @ApiResponse(responseCode = "403", description = "Comment with same title exit !")
@@ -96,6 +101,7 @@ public class CommentController {
     }
 
     @DeleteMapping("/{id}")
+    @Operation(summary = "Delete one comment.")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Comment successful deleted !"),
             @ApiResponse(responseCode = "404", description = "Comment not found !")

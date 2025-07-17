@@ -9,8 +9,11 @@ import com.bitkap.event_manager_api.utils.GlobalParams;
 import com.bitkap.event_manager_api.utils.dtos.ListObjectResponseDto;
 import com.bitkap.event_manager_api.utils.dtos.PageObjectResponseDto;
 import com.bitkap.event_manager_api.utils.dtos.SimpleObjectResponseDto;
+import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import io.swagger.v3.oas.annotations.security.SecurityRequirements;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -37,6 +40,7 @@ public class EventController {
     private final EventService eventService;
 
     @GetMapping("/{id}")
+    @Operation(summary = "Find one event.")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Event successful returned !"),
             @ApiResponse(responseCode = "404", description = "Event not found !")
@@ -46,7 +50,11 @@ public class EventController {
         return new SimpleObjectResponseDto<>(GlobalParams.ResponseStatusEnum.SUCCESS.name(), EventMapper.toResponse(eventService.findOneById(id)));
     }
 
-    @GetMapping("")
+    @GetMapping("/all")
+    @SecurityRequirements
+    @Operation(
+            summary = "Find all events."
+    )
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Events successful returned !"),
     })
@@ -72,6 +80,7 @@ public class EventController {
     }
 
     @GetMapping("/user/{userId}")
+    @Operation(summary = "Find all events by user id.")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Events successful returned !"),
     })
@@ -86,6 +95,7 @@ public class EventController {
     }
 
     @PostMapping("")
+    @Operation(summary = "Save one event.")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "201", description = "Event successful saved !"),
             @ApiResponse(responseCode = "403", description = "Event with same title exit !")
@@ -96,6 +106,7 @@ public class EventController {
     }
 
     @PutMapping("/{id}")
+    @Operation(summary = "Update one event.")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "201", description = "Event successful updated !"),
             @ApiResponse(responseCode = "403", description = "Event with same title exit !")
@@ -106,6 +117,7 @@ public class EventController {
     }
 
     @DeleteMapping("/{id}")
+    @Operation(summary = "Delete one event.")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Event successful deleted !"),
             @ApiResponse(responseCode = "404", description = "Event not found !")
@@ -116,6 +128,7 @@ public class EventController {
     }
 
     @GetMapping("/select")
+    @Operation(summary = "Get all event depending on query.")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Event successful deleted !")
     })
