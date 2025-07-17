@@ -1,5 +1,6 @@
 package com.bitkap.event_manager_api.utils;
 
+import com.bitkap.event_manager_api.features.user.entities.User;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;

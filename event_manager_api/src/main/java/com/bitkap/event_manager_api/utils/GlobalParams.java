@@ -6,7 +6,7 @@ package com.bitkap.event_manager_api.utils;
  * @implNote Interface use to preset some values.
  */
 public interface GlobalParams {
-    String API_PREFIX = "/api/";
+    String API_PREFIX = "/api";
 
     enum ResponseStatusEnum {
         SUCCESS,
