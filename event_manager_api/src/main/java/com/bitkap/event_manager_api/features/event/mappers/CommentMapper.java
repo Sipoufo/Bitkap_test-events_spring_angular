@@ -32,8 +32,8 @@ public class CommentMapper {
                 .value(comment.getValue())
                 .eventId(comment.getEvent().getId())
                 .eventTitle(comment.getEvent().getTitle())
-//                .createByUserId(comment.getCreatedBy().getId())
-//                .createByUserName(comment.getCreatedBy().getDisplayName())
+                .createByUserId(comment.getCreatedByUserId())
+                .createByUserName(comment.getCreatedByUserName())
                 .createAt(comment.getCreatedAt())
                 .build();
     }

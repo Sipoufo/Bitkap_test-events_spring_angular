@@ -13,6 +13,9 @@ import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -98,9 +101,22 @@ public class CommentServiceImpl implements CommentService {
     @Override
     public Comment save(CommentRequestDto commentRequestDto) {
         Event event = eventService.findOneById(commentRequestDto.getEventId());
+        final Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String userId = "";
+        String username = "";
+
+        if (authentication.getPrincipal() instanceof Jwt) {
+            Jwt jwt = (Jwt) authentication.getPrincipal();
+            userId = jwt.getSubject();
+            String email = jwt.getClaimAsString("email");
+            username = jwt.getClaimAsString("preferred_username");
+        }
 
         Comment comment = CommentMapper.toEntity(commentRequestDto);
+        System.out.println(userId);
         comment.setEvent(event);
+        comment.setCreatedByUserId(userId);
+        comment.setCreatedByUserName(username);
 
         logger.info(GlobalParams.ResponseStatusEnum.SUCCESS.name() + ": Comment with id = " + comment.getId() + " saved !");
         return commentRepository.save(comment);

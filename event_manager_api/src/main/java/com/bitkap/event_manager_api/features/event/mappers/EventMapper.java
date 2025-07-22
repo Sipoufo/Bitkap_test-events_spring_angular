@@ -31,13 +31,11 @@ public class EventMapper {
                 .title(event.getTitle())
                 .description(event.getDescription())
                 .eventDate(event.getEventDate())
-                .organizerId(event.getUser().getId())
-                .organizerName(event.getUser().getDisplayName())
                 .commentSize(
                         event.getComments().size()
                 )
-//                .createByUserId(event.getCreatedBy().getId())
-//                .createByUserName(event.getCreatedBy().getDisplayName())
+                .createByUserId(event.getCreatedByUserId())
+                .createByUserName(event.getCreatedByUserName())
                 .createAt(event.getCreatedAt())
                 .enabled(event.getEnabled())
                 .build();

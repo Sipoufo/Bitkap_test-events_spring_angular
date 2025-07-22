@@ -1,12 +1,30 @@
 <div class="w-full h-full flex justify-center items-center">
     <div class="m-10 h-screen md:h-auto flex flex-col text-center rounded-md shadow-md gap-2 py-4 w-11/12 md:w-8/12 overflow-hidden">
         <div class="flex flex-col bg-primary justify-between p-6 text-start gap-2">
-            <h1 class="font-bold text-2xl">{{eventResponse?.items?.title}}</h1>
+            <div 
+                class="flex flex-row justify-end w-full gap-6" 
+                *ngIf="subject === eventResponse?.items?.createByUserId"
+            >
+                <fa-icon 
+                    [icon]="faEdit"
+                    class="text-xl text-blue-600 cursor-pointer"
+                    (click)="editEvent()"
+                    ></fa-icon>
+                <fa-icon 
+                    [icon]="faTrash"
+                    class="text-xl text-red-600 cursor-pointer"
+                    (click)="deleteEvent()"
+                    ></fa-icon>
+            </div>
+            <h1 class="font-bold text-3xl">{{eventResponse?.items?.title}}</h1>
             <p>
                 {{eventResponse?.items?.description}}
             </p>
             <p>
                 Date: {{eventResponse?.items?.eventDate | date:'yyyy-MM-dd HH:mm:ss'}}
+            </p>
+            <p>
+                Creator: {{eventResponse?.items?.createByUserName}}
             </p>
         </div>
         <div class="flex flex-col gap-4">

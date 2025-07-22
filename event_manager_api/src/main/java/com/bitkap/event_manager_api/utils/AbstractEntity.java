@@ -26,20 +26,24 @@ public class AbstractEntity implements Serializable {
     // Use to determine when the data has been inserted
     @CreationTimestamp
     @Column(name = "created_at")
-    protected Instant createdAt;
+    Instant createdAt;
 
     // Use to determine when the data has been updated
     @UpdateTimestamp
     @Column(name = "updated_at")
-    protected Instant updatedAt;
+    Instant updatedAt;
 
     // Use to determine who inserted the data
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "u_user_created_by_id")
-    protected User createdBy;
+    @Column(name = "created_by_user_id")
+    String createdByUserId;
+
+    @Column(name = "created_by_user_name")
+    String createdByUserName;
 
     // Use to determine who updated the data
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "u_user_updated_by_id")
-    protected User updatedBy;
+    @Column(name = "update_by_user_id")
+    String updateByUserId;
+
+    @Column(name = "update_by_user_name")
+    String updateByUserName;
 }

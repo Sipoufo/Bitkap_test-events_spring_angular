@@ -32,7 +32,7 @@ public interface EventRepository extends JpaRepository<Event, Long> {
 
     Optional<Event> findByTitle(String title);
 
-    List<Event> findByUserIdAndEnabledTrue(Long userId);
+    List<Event> findByCreatedByUserIdAndEnabledTrue(String userId);
 
     Page<Event> findByEnabledTrue(Pageable pageable);
 }

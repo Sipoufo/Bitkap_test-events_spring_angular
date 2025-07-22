@@ -21,6 +21,10 @@ export const routes: Routes = [
         component: EventComponent 
     },
     { 
+        path: 'current-user', 
+        component: EventComponent 
+    },
+    { 
         path: 'create', 
         component: EventForm,
         canActivate: [authGuard],
@@ -28,6 +32,11 @@ export const routes: Routes = [
     { 
         path: 'detail/:eventId', 
         component: EventDetailComponent,
+        canActivate: [authGuard],
+    },
+    { 
+        path: 'edit/:eventId', 
+        component: EventForm,
         canActivate: [authGuard],
     },
     { 

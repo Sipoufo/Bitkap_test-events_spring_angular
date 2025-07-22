@@ -58,14 +58,13 @@ public class CommentController {
             @RequestParam(value = "page", defaultValue = "0", required = false) Integer page,
             @RequestParam(value = "size", defaultValue = "10", required = false) Integer size
     ) {
-        Pageable pageable = PageRequest.of(page, size);
         Page<Comment> comments = commentService.findAll(page, size);
         Page<CommentResponseDto> commentResult = new PageImpl<>(
                 comments.getContent().stream()
                     .map(CommentMapper::toResponse)
                     .collect(Collectors.toList()),
-                pageable,
-                comments.getSize()
+                comments.getPageable(),
+                comments.getTotalElements()
         );
 
         return new PageObjectResponseDto<>(

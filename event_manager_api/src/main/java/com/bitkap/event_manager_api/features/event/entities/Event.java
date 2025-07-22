@@ -1,6 +1,5 @@
 package com.bitkap.event_manager_api.features.event.entities;
 
-import com.bitkap.event_manager_api.features.user.entities.User;
 import com.bitkap.event_manager_api.utils.AbstractEntity;
 import jakarta.persistence.*;
 import lombok.*;
@@ -35,10 +34,6 @@ public class Event extends AbstractEntity {
 
     @Column(name = "event_date", nullable = false)
     private Instant eventDate;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id", nullable = false)
-    private User user;
 
     @Builder.Default
     @OneToMany(mappedBy = "event", fetch = FetchType.LAZY)

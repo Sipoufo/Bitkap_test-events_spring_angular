@@ -25,7 +25,7 @@ public class Comment extends AbstractEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "value", nullable = false, unique = true, length = 100)
+    @Column(name = "value", nullable = false, length = 100)
     private String value;
 
     @ManyToOne(fetch = FetchType.LAZY)

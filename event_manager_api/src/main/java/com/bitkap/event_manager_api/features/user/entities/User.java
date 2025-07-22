@@ -36,7 +36,4 @@ public class User extends AbstractEntity {
 
     @Column(name = "password")
     private String password;
-
-    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
-    private List<Event> events;
 }

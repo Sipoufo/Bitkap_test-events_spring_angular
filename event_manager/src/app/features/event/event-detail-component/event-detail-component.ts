@@ -9,16 +9,22 @@ import { CommentService } from '../services/comment-service';
 import { SimpleResponse } from '../../../models/simple-response';
 import { CommentRequest } from '../models/comment-request';
 import { FormsModule } from '@angular/forms';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { faTrash, faEdit } from '@fortawesome/free-solid-svg-icons';
+import { KeycloakService } from '../../../services/keycloak/keycloak.service';
 
 @Component({
   selector: 'app-event-detail-component',
-  imports: [DatePipe, CommonModule, FormsModule],
+  imports: [DatePipe, CommonModule, FormsModule, FontAwesomeModule],
   templateUrl: './event-detail-component.html',
   styleUrl: './event-detail-component.css'
 })
 export class EventDetailComponent implements OnInit {
+  faTrash = faTrash;
+  faEdit = faEdit;
   commentResponse: PageResponse<CommentResponse> = {};
   eventResponse?: SimpleResponse<EventResponse>;
+  subject: string = "";
   private eventId = 0;
   page = 0;
   size = 5;
@@ -32,10 +38,12 @@ export class EventDetailComponent implements OnInit {
     private eventService: EventService,
     private commentService: CommentService,
     private activatedRoute: ActivatedRoute,
+    private keycloakService: KeycloakService,
     private router: Router
   ) {}
 
   ngOnInit(): void {
+    this.subject = this.keycloakService.keycloak.subject ?? "";
     this.eventId = this.activatedRoute.snapshot.params['eventId'];
     this.commentRequest = {
       value: "",
@@ -52,6 +60,14 @@ export class EventDetailComponent implements OnInit {
       next: (event) => {
         this.eventResponse = event;
         this.findAllComments();
+      }
+    });
+  }
+
+  deleteEvent() {
+    this.eventService.deleteEvent(this.eventId).subscribe({
+      next: (event) => {
+        this.router.navigate(['']);
       }
     });
   }
@@ -81,5 +97,9 @@ export class EventDetailComponent implements OnInit {
         // this.errorMsg = err.error.validationErrors;
       }
     });
+  }
+
+  editEvent() {
+    this.router.navigate(['edit', this.eventId]);
   }
 }

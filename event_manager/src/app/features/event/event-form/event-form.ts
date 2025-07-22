@@ -5,15 +5,19 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { CommonModule, DatePipe } from '@angular/common';
 import { DateUtil } from '../../../services/date-util';
+import { PopupWidget } from "../../widget/popup/popup-widget/popup-widget";
+import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-event-form',
-  imports: [ CommonModule, FormsModule, ReactiveFormsModule],
+  imports: [CommonModule, FormsModule, ReactiveFormsModule],
   templateUrl: './event-form.html',
   styleUrl: './event-form.css'
 })
 export class EventForm implements OnInit {
   eventRequest: EventRequest = {};
+  eventId?: number;
+  errorMessage?: string;
 
   eventForm = new FormGroup({
     title: new FormControl(this.eventRequest.title, [
@@ -26,15 +30,32 @@ export class EventForm implements OnInit {
 
   constructor(
     private eventService: EventService,
+    private activatedRoute: ActivatedRoute,
+    private modalService: NgbModal,
     private router: Router
   ) {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.eventId = this.activatedRoute.snapshot.params['eventId'];
 
-  addEvent() {
-    console.log(this.eventForm.value.title);
-    console.log(this.eventRequest);
-    
+    if (this.eventId != null) {
+      this.loadEvent(this.eventId);
+    }
+  }
+
+  private loadEvent(eventId: number) {
+    this.eventService.findEventById(eventId).subscribe({
+      next: (event) => {
+        this.eventForm.patchValue({
+          title: event.items?.title,
+          eventDate: event.items?.eventDate,
+          description: event.items?.description,
+        });
+      }
+    });
+  }
+
+  addEvent() {    
     if (this.eventForm.valid) {
       this.eventService.addEvent({
         title: this.eventForm.value.title!,
@@ -45,9 +66,15 @@ export class EventForm implements OnInit {
           this.router.navigate(['']);
         },
         error: (err) => {
-          console.log(err.error);
+          console.log(err);
+          this.openModal(err.error.message);
         }
       });
     }
+  }
+
+  openModal(err: string) {
+    const modalRef = this.modalService.open(PopupWidget);
+    modalRef.componentInstance.message = err; 
   }
 }

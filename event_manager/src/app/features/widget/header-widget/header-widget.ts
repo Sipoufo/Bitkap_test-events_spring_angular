@@ -38,4 +38,8 @@ export class HeaderWidget {
   createEventPage() {
     this.router.navigate(['create']);
   }
+  
+  eventForCurrentUserPage() {
+    this.router.navigate(['current-user']);
+  }
 }

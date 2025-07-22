@@ -28,7 +28,7 @@ public class EventResponseDto {
     private Long organizerId;
     private String organizerName;
     private int commentSize;
-    private Long createByUserId;
+    private String createByUserId;
     private String createByUserName;
     private Instant createAt;
     private Boolean enabled;

@@ -23,7 +23,7 @@ public class CommentResponseDto {
     private String value;
     private Long eventId;
     private String eventTitle;
-    private Long createByUserId;
+    private String createByUserId;
     private String createByUserName;
     private Instant createAt;
 }

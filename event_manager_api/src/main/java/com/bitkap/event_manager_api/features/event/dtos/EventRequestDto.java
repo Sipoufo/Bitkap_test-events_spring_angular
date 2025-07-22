@@ -24,10 +24,6 @@ public class EventRequestDto {
     @NotBlank(message = "Title is required !")
     @Size(max = 100, message = "Title is too high !")
     private String title;
-
-    @NotNull(message = "Id of user is required !")
-    private Long userId;
-
     private String description;
     private Instant eventDate;
 }

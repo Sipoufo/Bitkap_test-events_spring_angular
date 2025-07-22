@@ -32,10 +32,9 @@ public interface EventService {
 
     /**
      * Function uses to find all event depend on event.
-     * @param userId is the id of user.
      * @return list of event that containing all event depend on user id.
      */
-    List<Event> findAllByUser(Long userId);
+    List<Event> findAllForCurrentUser();
 
     /**
      * Function uses to save event.

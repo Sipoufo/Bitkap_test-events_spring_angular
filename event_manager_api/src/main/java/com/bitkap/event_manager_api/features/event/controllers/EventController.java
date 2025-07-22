@@ -63,15 +63,18 @@ public class EventController {
             @RequestParam(value = "page", defaultValue = "0", required = false) Integer page,
             @RequestParam(value = "size", defaultValue = "10", required = false) Integer size
     ) {
-        Pageable pageable = PageRequest.of(page, size);
         Page<Event> events = eventService.findAll(page, size);
+        System.out.println("total page = " + events.getTotalPages());
+
         Page<EventResponseDto> eventResult = new PageImpl<>(
                 events.getContent().stream()
                     .map(EventMapper::toResponse)
                     .collect(Collectors.toList()),
-                pageable,
-                events.getContent().size()
+                events.getPageable(),
+                events.getTotalElements()
         );
+
+        System.out.println("total page eventResult = " + eventResult.getTotalPages());
 
         return new PageObjectResponseDto<>(
                 GlobalParams.ResponseStatusEnum.SUCCESS.name(),
@@ -79,16 +82,16 @@ public class EventController {
         );
     }
 
-    @GetMapping("/user/{userId}")
-    @Operation(summary = "Find all events by user id.")
+    @GetMapping("/user/current-user")
+    @Operation(summary = "Find all events for current user.")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Events successful returned !"),
     })
     @ResponseStatus(HttpStatus.OK)
-    public ListObjectResponseDto<EventResponseDto> findAllByUser(@PathVariable("userId") Long userId) {
+    public ListObjectResponseDto<EventResponseDto> findAllByUser() {
         return new ListObjectResponseDto<>(
                 GlobalParams.ResponseStatusEnum.SUCCESS.name(),
-                eventService.findAllByUser(userId).stream()
+                eventService.findAllForCurrentUser().stream()
                         .map(EventMapper::toResponse)
                         .collect(Collectors.toList())
         );
@@ -136,14 +139,13 @@ public class EventController {
     public PageObjectResponseDto<EventResponseDto> select(
             @RequestParam(value = "query", required = false, defaultValue = "") String query
     ) {
-        Pageable pageable = PageRequest.of(0, 10);
         Page<Event> events = eventService.findSelect(query);
         Page<EventResponseDto> eventResult = new PageImpl<>(
                 events.getContent().stream()
                         .map(EventMapper::toResponse)
                         .collect(Collectors.toList()),
-                pageable,
-                events.getSize()
+                events.getPageable(),
+                events.getTotalElements()
         );
 
         return new PageObjectResponseDto<>(

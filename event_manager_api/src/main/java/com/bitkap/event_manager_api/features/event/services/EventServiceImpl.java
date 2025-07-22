@@ -6,7 +6,6 @@ import com.bitkap.event_manager_api.features.event.dtos.EventRequestDto;
 import com.bitkap.event_manager_api.features.event.entities.Event;
 import com.bitkap.event_manager_api.features.event.mappers.EventMapper;
 import com.bitkap.event_manager_api.features.event.repositories.EventRepository;
-import com.bitkap.event_manager_api.features.user.entities.User;
 import com.bitkap.event_manager_api.features.user.services.UserService;
 import com.bitkap.event_manager_api.utils.GlobalParams;
 import lombok.RequiredArgsConstructor;
@@ -15,6 +14,9 @@ import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -85,14 +87,20 @@ public class EventServiceImpl implements EventService{
      *  2. Get list of all events depend on id of user
      *  3. Return result of events
      *
-     * @param userId is the id of user.
      * @return list of event that containing all event depend on user id.
      */
     @Override
-    public List<Event> findAllByUser(Long userId) {
-        userService.findOneById(userId);
+    public List<Event> findAllForCurrentUser() {
+        final Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String userId = "";
 
-        List<Event> events = eventRepository.findByUserIdAndEnabledTrue(userId);
+        if (authentication.getPrincipal() instanceof Jwt) {
+            Jwt jwt = (Jwt) authentication.getPrincipal();
+            userId = jwt.getSubject();
+        }
+
+        System.out.println("userId: " + userId);
+        List<Event> events = eventRepository.findByCreatedByUserIdAndEnabledTrue(userId);
 
         logger.info(GlobalParams.ResponseStatusEnum.SUCCESS.name() + ": List of events returned with size = " + events.size() + " !");
         return events;
@@ -109,7 +117,16 @@ public class EventServiceImpl implements EventService{
      */
     @Override
     public Event save(EventRequestDto eventRequestDto) {
-        User user = userService.findOneById(eventRequestDto.getUserId());
+        final Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String userId = "";
+        String username = "";
+
+        if (authentication.getPrincipal() instanceof Jwt) {
+            Jwt jwt = (Jwt) authentication.getPrincipal();
+            userId = jwt.getSubject();
+            String email = jwt.getClaimAsString("email");
+            username = jwt.getClaimAsString("preferred_username");
+        }
 
         Optional<Event> eventFind = eventRepository.findByTitle(eventRequestDto.getTitle());
         if (eventFind.isPresent()) {
@@ -119,7 +136,9 @@ public class EventServiceImpl implements EventService{
         }
 
         Event event = EventMapper.toEntity(eventRequestDto);
-        event.setUser(user);
+        event.setCreatedByUserId(userId);
+        event.setCreatedByUserName(username);
+
 
         logger.info(GlobalParams.ResponseStatusEnum.SUCCESS.name() + ": Event with id = " + event.getId() + " saved !");
         return eventRepository.save(event);
@@ -137,8 +156,6 @@ public class EventServiceImpl implements EventService{
      */
     @Override
     public Event update(Long id, EventRequestDto eventRequestDto) {
-        User user = userService.findOneById(eventRequestDto.getUserId());
-
         Optional<Event> eventCheck = eventRepository.findByTitle(eventRequestDto.getTitle());
         if (eventCheck.isPresent() && !Objects.equals(eventCheck.get().getId(), id)) {
             logger.info(GlobalParams.ResponseStatusEnum.ERROR + " : ObjectExistsException");
@@ -150,7 +167,6 @@ public class EventServiceImpl implements EventService{
         event.setTitle(eventRequestDto.getTitle());
         event.setDescription(eventRequestDto.getDescription());
         event.setEventDate(eventRequestDto.getEventDate());
-        event.setUser(user);
 
         logger.info(GlobalParams.ResponseStatusEnum.SUCCESS.name() + ": Event with id = " + event.getId() + " updated !");
         return eventRepository.save(event);
