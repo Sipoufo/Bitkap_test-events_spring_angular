@@ -1,0 +1,35 @@
+<div class="relative flex flex-col justify-center items-center text-white">
+    <div class="z-50 fixed flex flex-row justify-between top-0 w-full px-20 py-6 bg-[#5522CC]">
+        <h1 class="font-bold text-2xl">BitKap Event</h1>
+        <ul class="flex flex-row gap-4 items-center">
+            <li>
+                <a href="#">All Event</a>
+            </li>
+            <li [ngClass]="{'hidden': token != null}">
+                <button (click)="login()" class="w-auto px-4 py-3 bg-white rounded-lg hover:bg-opacity-90 text-[#5522CC]">
+                    Login
+                </button>
+            </li>
+            <li [ngClass]="{'hidden': token == ''}">
+                <button class="w-auto px-4 py-3 bg-white rounded-lg hover:bg-opacity-90 text-[#5522CC]">
+                    Add event
+                </button>
+            </li>
+            <li [ngClass]="{'hidden': token == ''}">
+                <button (click)="logout()" class="w-auto px-4 py-3 bg-white rounded-lg hover:bg-opacity-90 text-[#5522CC]">
+                    Logout
+                </button>
+            </li>
+        </ul>
+    </div>
+    <div class="relative flex h-80 w-full">
+        <img src="/assets/images/bg1.jpg" class="w-full h-full object-cover" />
+        <div class="pt-20 absolute flex flex-row justify-center items-center w-full h-full bg-[#5522CC] bg-opacity-70 gap-10">
+            <img src="/assets/images/img1.png" class="w-60 h-60 object-cover" />
+            <div class="flex flex-col gap-4 w-80">
+                <h1 class="font-bold text-4xl">BitKap Event</h1>
+                <p>Look no further! Our SBS The Show tickets are the simplest way for you to experience a live Kpop recording.</p>
+            </div>
+        </div>
+    </div>
+</div>
