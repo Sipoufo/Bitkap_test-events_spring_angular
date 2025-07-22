@@ -1,6 +1,5 @@
 import {Injectable} from '@angular/core';
 import Keycloak from 'keycloak-js';
-import {UserProfile} from './user-profile';
 
 @Injectable({
   providedIn: 'root'
@@ -26,7 +25,7 @@ export class KeycloakService {
   }
 
   login() {
-    return this.keycloak.login();
+    return this.keycloak.login({redirectUri: 'http://localhost:4200'});
   }
 
   register() {

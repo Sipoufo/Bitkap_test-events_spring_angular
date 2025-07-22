@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { KeycloakService } from '../../../services/keycloak/keycloak.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-header-widget',
@@ -12,9 +13,9 @@ export class HeaderWidget {
   token?: string;
 
   constructor(
-    private keycloakService: KeycloakService
+    private keycloakService: KeycloakService,
+    private router: Router
   ) {
-    console.log(this.keycloakService.keycloak);
     this.token = this.keycloakService.keycloak.token;
   }
 
@@ -24,5 +25,13 @@ export class HeaderWidget {
 
   async logout() {
     await this.keycloakService.logout();
+  }
+  
+  allEventPage() {
+    this.router.navigate(['']);
+  }
+  
+  createEventPage() {
+    this.router.navigate(['create']);
   }
 }

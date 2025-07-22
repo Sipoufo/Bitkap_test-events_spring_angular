@@ -9,12 +9,11 @@ import { KeycloakService } from '../../services/keycloak/keycloak.service';
 })
 export class Register {
   constructor(
-    private ss: KeycloakService
+    private keycloakService: KeycloakService
   ) {
   }
 
   async ngOnInit(): Promise<void> {
-    await this.ss.init();
-    await this.ss.register();
+    await this.keycloakService.register();
   }
 }

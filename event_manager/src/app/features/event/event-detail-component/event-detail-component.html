@@ -1,0 +1,40 @@
+<div class="w-full h-full flex justify-center items-center">
+    <div class="m-10 h-screen md:h-auto flex flex-col text-center rounded-md shadow-md gap-2 py-4 w-11/12 md:w-8/12 overflow-hidden">
+        <div class="flex flex-col bg-primary justify-between p-6 text-start gap-2">
+            <h1 class="font-bold text-2xl">{{eventResponse?.items?.title}}</h1>
+            <p>
+                {{eventResponse?.items?.description}}
+            </p>
+            <p>
+                Date: {{eventResponse?.items?.eventDate | date:'yyyy-MM-dd HH:mm:ss'}}
+            </p>
+        </div>
+        <div class="flex flex-col gap-4">
+            <form
+                class="flex flex-col mt-2 gap-4 px-6 text-start overflow-auto"
+                onSubmit={CreateEvent}
+            >
+                <div class="flex flex-col md:flex-row justify-between gap-4">
+                    <div class="flex flex-col gap-1 w-full">
+                        <label class="font-medium">Comments</label>
+                        <input
+                            type="text"
+                            name="title"
+                            class="border border-[#E6E6E6] text-black placeholder:text-secondary px-4 py-3 rounded-sm"
+                            placeholder="Add comment"
+                        />
+                    </div>
+                    <button class="w-40 px-4 py-3 bg-[#525266] text-white rounded-lg hover:bg-opacity-90 font-medium mt-4">
+                        Add comment
+                    </button>
+                </div>
+            </form>
+            <div class="px-20 flex flex-col gap-2" *ngFor="let comment of commentResponse.items">
+                <div class="flex flex-row gap-2 items-center">
+                    <p class="font-medium">{{comment.createByUserName}} :</p>
+                    <p>{{comment.value}}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

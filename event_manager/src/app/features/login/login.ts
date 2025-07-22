@@ -10,12 +10,11 @@ import { KeycloakService } from '../../services/keycloak/keycloak.service';
 export class Login {
 
   constructor(
-    private ss: KeycloakService
+    private keycloakService: KeycloakService
   ) {
   }
 
   async ngOnInit(): Promise<void> {
-    await this.ss.init();
-    await this.ss.login();
+    await this.keycloakService.login();
   }
 }
