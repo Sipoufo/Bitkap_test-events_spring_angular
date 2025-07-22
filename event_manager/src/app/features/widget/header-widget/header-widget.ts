@@ -23,6 +23,10 @@ export class HeaderWidget {
     await this.keycloakService.login();
   }
 
+  async register() {
+    await this.keycloakService.register();
+  }
+
   async logout() {
     await this.keycloakService.logout();
   }

@@ -8,6 +8,7 @@ import { EventResponse } from '../models/event-response';
 import { RequestBuilder } from '../../../request-builder';
 import { StrictHttpResponse } from '../../auth/models/strict-http-response';
 import { SimpleResponse } from '../../../models/simple-response';
+import { EventRequest } from '../models/event-request';
 
 @Injectable({
   providedIn: 'root'
@@ -51,4 +52,22 @@ export class EventService {
       map((r: StrictHttpResponse<SimpleResponse<EventResponse>>): SimpleResponse<EventResponse> => r.body)
     );
   }
+    
+    addEvent(bodyRequest?: EventRequest, context?: HttpContext): Observable<SimpleResponse<EventResponse>> {
+      const rb = new RequestBuilder(this.config.rootUrl, "/event", 'post');
+      if (bodyRequest) {
+        rb.body(bodyRequest, 'application/json');
+      }
+  
+      return this.http.request(
+        rb.build({ responseType: 'json', accept: 'application/json', context })
+      ).pipe(
+        filter((r: any): r is HttpResponse<any> => r instanceof HttpResponse),
+        map((r: HttpResponse<any>) => {
+          return r as StrictHttpResponse<SimpleResponse<EventResponse>>;
+        })
+      ).pipe(
+        map((r: StrictHttpResponse<SimpleResponse<EventResponse>>): SimpleResponse<EventResponse> => r.body)
+      );
+    }
 }

@@ -6,7 +6,7 @@ export interface EventResponse {
     organizerId: number,
     organizerName: string,
     commentSize: number,
-    createByUserId: number,
+    createByUserId: string,
     createByUserName: string,
     createAt: Date,
     enabled: boolean,

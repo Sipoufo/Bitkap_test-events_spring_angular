@@ -10,12 +10,17 @@
                     Login
                 </button>
             </li>
-            <li [ngClass]="{'hidden': token == ''}">
+            <li [ngClass]="{'hidden': token != null}">
+                <button (click)="register()" class="w-auto px-4 py-3 bg-white rounded-lg hover:bg-opacity-90 text-[#5522CC]">
+                    Register
+                </button>
+            </li>
+            <li [ngClass]="{'hidden': token == null}">
                 <button (click)="createEventPage()" class="w-auto px-4 py-3 bg-white rounded-lg hover:bg-opacity-90 text-[#5522CC]">
                     Add event
                 </button>
             </li>
-            <li [ngClass]="{'hidden': token == ''}">
+            <li [ngClass]="{'hidden': token == null}">
                 <button (click)="logout()" class="w-auto px-4 py-3 bg-white rounded-lg hover:bg-opacity-90 text-[#5522CC]">
                     Logout
                 </button>

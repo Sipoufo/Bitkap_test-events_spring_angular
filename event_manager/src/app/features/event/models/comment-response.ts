@@ -3,7 +3,7 @@ export interface CommentResponse {
     value: string;
     eventId: number;
     eventTitle: string;
-    createByUserId: number;
+    createByUserId: string;
     createByUserName: string;
     createAt: Date;
 }

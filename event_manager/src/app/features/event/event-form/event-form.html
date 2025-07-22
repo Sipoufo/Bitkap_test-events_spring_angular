@@ -9,7 +9,7 @@
         </div>
         <form
             class="flex flex-col mt-2 gap-4 p-6 text-start overflow-auto"
-            onSubmit={CreateEvent}
+            [formGroup]="eventForm"
         >
             <div class="flex flex-col md:flex-row justify-between gap-4">
                 <div class="flex flex-col gap-1 w-full">
@@ -17,8 +17,10 @@
                     <input
                         type="text"
                         name="title"
+                        formControlName="title"
                         class="border border-[#E6E6E6] text-black placeholder:text-secondary px-4 py-3 rounded-sm"
                         placeholder="Event title"
+                        required
                     />
                 </div>
                 <div class="flex flex-col gap-1 w-full">
@@ -38,9 +40,11 @@
                     /> -->
                     <input
                         type="datetime-local"
-                        name="date"
+                        name="eventDate"
+                        formControlName="eventDate"
                         class="border border-[#E6E6E6] text-black placeholder:text-secondary px-4 py-3 rounded-sm"
                         placeholder="Start date & time"
+                        required
                     />
                 </div>
             </div>
@@ -49,12 +53,13 @@
                     <label class="font-medium">Event description</label>
                     <textarea
                         name="description"
+                        formControlName="description"
                         class="border border-[#E6E6E6] text-black placeholder:text-secondary px-4 py-3 rounded-sm"
                         placeholder="Event title"
                     ></textarea>
                 </div>
             </div>
-            <button class="w-auto px-4 py-3 bg-[#525266] text-white rounded-lg hover:bg-opacity-90 font-medium mt-4">
+            <button (click)="addEvent()" class="w-auto px-4 py-3 bg-[#525266] text-white rounded-lg hover:bg-opacity-90 font-medium mt-4">
                 Create event
             </button>
         </form>

@@ -1,20 +1,13 @@
 <div class="flex flex-col gap-4 p-10 w-full">
     <h1 class="font-bold text-2xl">All Event</h1>
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4" *ngFor="let event of eventResponse.items">
-        <div (click)="displayEventDetail(event.id)" class="cursor-pointer flex flex-col hover:shadow-xl shadow-md text-black my-2 border border-gray-200 text-start">
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-2">
+        <div *ngFor="let event of eventResponse.items" (click)="displayEventDetail(event.id)" class="cursor-pointer flex flex-col hover:shadow-xl shadow-md text-black my-2 border border-gray-200 text-start">
             <div class="relative px-4 py-6 flex flex-col bg-white gap-3">
                 <h1 class="text-base font-bold"> {{event.title}} </h1>
                 <h2 class="text-forth font-semibold"> Date : {{event.createAt | date:'yyyy-MM-dd HH:mm:ss'}} </h2>
                 <p>
                     {{event.description}}
                 </p>
-                <div class="flex flex-row items-center justify-between">
-                    <div class="flex flex-row  gap-2 font-medium text-xs">
-                    <label>organizer: {{event.createByUserName}}</label>
-                    </div>
-                    <button class="w-auto px-3 py-2 bg-primary rounded-lg hover:bg-opacity-90 text-white">Réserver</button>
-                    
-                </div>
             </div>
         </div>
     </div>
