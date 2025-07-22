@@ -37,7 +37,7 @@ export class EventService {
     );
   }
 
-  findBookById(eventId: number, context?: HttpContext): Observable<SimpleResponse<EventResponse>> {
+  findEventById(eventId: number, context?: HttpContext): Observable<SimpleResponse<EventResponse>> {
     const rb = new RequestBuilder(this.config.rootUrl, "/event/"+eventId, 'get');
 
     return this.http.request(
